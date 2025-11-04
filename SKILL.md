@@ -141,10 +141,45 @@ python scripts/validate_report.py --report [path]
 
 **CRITICAL: Generate COMPREHENSIVE, DETAILED markdown reports**
 
-**File Output:**
-- Save as `.md` file to `~/.claude/research_output/`
-- Filename format: `research_report_YYYYMMDD_HHMMSS.md`
-- Example: `research_report_20251104_153045.md`
+**File Organization (CRITICAL - Clean Accessibility):**
+
+**1. Create Organized Folder in Documents:**
+- ALWAYS create dedicated folder: `~/Documents/[TopicName]_Research_[YYYYMMDD]/`
+- Extract clean topic name from research question (remove special chars, use underscores/CamelCase)
+- Examples:
+  - "psilocybin research 2025" → `~/Documents/Psilocybin_Research_20251104/`
+  - "compare React vs Vue" → `~/Documents/React_vs_Vue_Research_20251104/`
+  - "AI safety trends" → `~/Documents/AI_Safety_Trends_Research_20251104/`
+- If folder exists, use it; if not, create it
+- This ensures clean organization and easy accessibility
+
+**2. Save All Formats to Same Folder:**
+
+**Markdown (Primary Source):**
+- Save to: `[Documents folder]/research_report_[YYYYMMDD]_[topic_slug].md`
+- Also save copy to: `~/.claude/research_output/` (internal tracking)
+- Full detailed report with all findings
+
+**HTML (McKinsey Style - ALWAYS GENERATE):**
+- Save to: `[Documents folder]/research_report_[YYYYMMDD]_[topic_slug].html`
+- Use McKinsey template: [mckinsey_template](./templates/mckinsey_report_template.html)
+- Design principles: Sharp corners (NO border-radius), muted corporate colors (navy #003d5c, gray #f8f9fa), ultra-compact layout, info-first structure
+- Place critical metrics dashboard at top (extract 3-4 key quantitative findings)
+- Use data tables for dense information presentation
+- 14px base font, compact spacing, no decorative gradients or colors
+- OPEN in browser automatically after generation
+
+**PDF (Professional Print - ALWAYS GENERATE):**
+- Save to: `[Documents folder]/research_report_[YYYYMMDD]_[topic_slug].pdf`
+- Use generating-pdf skill (via Task tool with general-purpose agent)
+- Professional formatting with headers, page numbers
+- OPEN in default PDF viewer after generation
+
+**3. File Naming Convention:**
+All files use same base name for easy matching:
+- `research_report_20251104_psilocybin_2025.md`
+- `research_report_20251104_psilocybin_2025.html`
+- `research_report_20251104_psilocybin_2025.pdf`
 
 **Length Requirements:**
 - Quick mode: 1,000-2,000 words minimum
@@ -169,9 +204,45 @@ python scripts/validate_report.py --report [path]
 
 **Deliver to user:**
 1. Executive summary (inline in chat)
-2. Confirmation that full report saved with file path
-3. Source quality assessment summary
-4. Next steps (if relevant)
+2. Organized folder path (e.g., "📁 All files saved to: ~/Documents/Psilocybin_Research_20251104/")
+3. Confirmation of all three formats generated:
+   - ✅ Markdown (source)
+   - ✅ HTML (McKinsey-style, opened in browser)
+   - ✅ PDF (professional print, opened in viewer)
+4. Source quality assessment summary (credibility score, source count)
+5. Next steps (if relevant)
+
+**Generation Workflow (Execute in Order):**
+
+**Step 1: Create Folder**
+```bash
+# Extract topic slug from research question
+# Create folder: ~/Documents/[TopicName]_Research_[YYYYMMDD]/
+mkdir -p ~/Documents/[folder_name]
+```
+
+**Step 2: Generate Markdown**
+- Write comprehensive report using [template](./templates/report_template.md)
+- Save to: `[folder]/research_report_[YYYYMMDD]_[slug].md`
+- Also save copy to: `~/.claude/research_output/` (internal tracking)
+
+**Step 3: Generate HTML (McKinsey Style)**
+1. Read McKinsey template from `./templates/mckinsey_report_template.html`
+2. Extract 3-4 key quantitative metrics from findings for dashboard
+3. Convert markdown to HTML with McKinsey formatting:
+   - Executive Summary → Brief summary box (highlight key findings in bold)
+   - Main Findings → 2-column grid of compact finding cards
+   - Mechanisms/Data → Data tables with navy headers
+   - Recommendations → Compact info boxes with numbered lists
+4. Replace placeholders: {{TITLE}}, {{DATE}}, {{MODE}}, {{SOURCE_COUNT}}, {{CREDIBILITY}}, {{METRICS_DASHBOARD}}, {{CONTENT}}, {{BIBLIOGRAPHY}}
+5. Save to: `[folder]/research_report_[YYYYMMDD]_[slug].html`
+6. Open in browser: `open [html_path]`
+
+**Step 4: Generate PDF**
+1. Use Task tool with general-purpose agent
+2. Invoke generating-pdf skill with markdown as input
+3. Save to: `[folder]/research_report_[YYYYMMDD]_[slug].pdf`
+4. PDF will auto-open when complete
 
 ---
 

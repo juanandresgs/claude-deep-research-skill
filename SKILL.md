@@ -613,57 +613,61 @@ Context preservation ensures coherence across continuation boundaries.
 **Generate HTML (McKinsey Style)**
 1. Read McKinsey template from `./templates/mckinsey_report_template.html`
 2. Extract 3-4 key quantitative metrics from findings for dashboard
-3. Convert markdown to HTML in TWO parts (use Python script for proper conversion):
+3. **Use Python script for MD to HTML conversion:**
 
-   **Part A: {{CONTENT}} - Sections 1-6 + Appendix (NOT Bibliography):**
-   - Executive Summary → Synthesis & Insights → Limitations → Recommendations → Appendix: Methodology
-   - Headers: ## → `<h2 class="section-title">`, ### → `<h3 class="subsection-title">`
+   ```bash
+   cd ~/.claude/skills/deep-research
+   python scripts/md_to_html.py [markdown_report_path]
+   ```
 
-   **Part B: {{BIBLIOGRAPHY}} - Section 7 only (separate from content):**
-   - Extract "## Bibliography" section from markdown
-   - Format each [N] citation as separate `<div class="bib-entry">` with hanging indent
-   - URLs: make clickable with `<a href="..." target="_blank">`
-   - DO NOT include Bibliography in {{CONTENT}} - it goes in {{BIBLIOGRAPHY}} placeholder only
+   The script returns two parts:
+   - **Part A ({{CONTENT}}):** All sections except Bibliography, properly converted to HTML
+   - **Part B ({{BIBLIOGRAPHY}}):** Bibliography section only, formatted as HTML
 
-   **Formatting rules for both parts:**
-   - **Citations with Attribution Gradients (in {{CONTENT}} only):** Convert [N] to interactive tooltips:
-     ```html
-     <span class="citation">[N]
-       <span class="citation-tooltip">
-         <div class="tooltip-title">[Source Title]</div>
-         <div class="tooltip-source">[Author (Year)]</div>
-         <div class="tooltip-claim">
-           <div class="tooltip-claim-label">Supports Claim:</div>
-           [Extract sentence containing this citation from report]
-         </div>
-       </span>
+   **CRITICAL:** The script handles ALL conversion automatically:
+   - Headers: ## → `<div class="section"><h2 class="section-title">`, ### → `<h3 class="subsection-title">`
+   - Lists: Markdown bullets → `<ul><li>` with proper nesting
+   - Tables: Markdown tables → `<table>` with thead/tbody
+   - Paragraphs: Text wrapped in `<p>` tags
+   - Bold/italic: **text** → `<strong>`, *text* → `<em>`
+   - Citations: [N] preserved for tooltip conversion in step 4
+
+4. **Add Citation Tooltips (Attribution Gradients):**
+   For each [N] citation in {{CONTENT}} (not bibliography), optionally add interactive tooltips:
+   ```html
+   <span class="citation">[N]
+     <span class="citation-tooltip">
+       <div class="tooltip-title">[Source Title]</div>
+       <div class="tooltip-source">[Author/Publisher]</div>
+       <div class="tooltip-claim">
+         <div class="tooltip-claim-label">Supports Claim:</div>
+         [Extract sentence with this citation]
+       </div>
      </span>
-     ```
-   - Lists: convert markdown bullets to `<ul><li>` properly
-   - Paragraphs: wrap non-HTML lines in `<p>` tags
+   </span>
+   ```
+   NOTE: This step is optional for speed. Basic [N] citations are sufficient.
 
-4. Replace placeholders in template:
-   - {{TITLE}} - Report title
-   - {{DATE}} - Generation date
-   - {{MODE}} - Research mode (Quick/Standard/Deep/UltraDeep)
-   - {{SOURCE_COUNT}} - Number of sources
-   - {{CREDIBILITY}} - Average credibility score
+5. Replace placeholders in template:
+   - {{TITLE}} - Report title (extract from first ## heading in MD)
+   - {{DATE}} - Generation date (YYYY-MM-DD format)
+   - {{SOURCE_COUNT}} - Number of unique sources
    - {{METRICS_DASHBOARD}} - Metrics HTML from step 2
-   - {{CONTENT}} - Sections 1-6 + Appendix (from Part A above)
-   - {{BIBLIOGRAPHY}} - Bibliography HTML only (from Part B above)
-5. **Minimal Footer (Critical):**
-   - **DEFAULT:** Page numbers only: "Page X of Y"
-   - **IF DATE REQUESTED:** "Date | Page X of Y"
-   - Sans-serif font (Helvetica Neue), 10-11px, gray color
-   - **NEVER include:**
-     - ❌ Disclaimers (unsolicited, not needed)
-     - ❌ Word counts (unnecessary)
-     - ❌ Report type/analysis type (obvious from content)
-     - ❌ File paths, filenames, internal metrics
-     - ❌ "For informational purposes" or any legal text
-   - Keep absolute minimum - just pagination
-6. Save to: `[folder]/research_report_[YYYYMMDD]_[slug].html`
-7. Open in browser: `open [html_path]`
+   - {{CONTENT}} - HTML from Part A (script output)
+   - {{BIBLIOGRAPHY}} - HTML from Part B (script output)
+
+6. **CRITICAL: NO EMOJIS** - Remove any emoji characters from final HTML
+
+7. Save to: `[folder]/research_report_[YYYYMMDD]_[slug].html`
+
+8. **Verify HTML (MANDATORY):**
+   ```bash
+   python scripts/verify_html.py --html [html_path] --md [md_path]
+   ```
+   - Check passes: Proceed to step 9
+   - Check fails: Fix errors and re-run verification
+
+9. Open in browser: `open [html_path]`
 
 **Generate PDF**
 1. Use Task tool with general-purpose agent

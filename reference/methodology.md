@@ -64,11 +64,23 @@ Before launching searches, decompose the research question into 5-10 independent
 
 **Step 1: Launch ALL searches concurrently (single message)**
 
-Execute 5-10 WebSearch calls in parallel:
-- Mix semantic (Exa neural) and keyword searches
-- Use date filters for recent information (start_published_date: 2024-01-01)
-- Domain-filter for academic (arxiv.org, scholar.google.com) and industry sources
-- Vary query phrasing to capture different result sets
+**CRITICAL: Use correct tool and parameters to avoid errors**
+
+Choose ONE search approach per research session:
+
+**Option A: Use WebSearch (built-in, no MCP required)**
+- Standard web search with simple query string
+- Parameters: `query` (required)
+- Optional: `allowed_domains`, `blocked_domains`
+- Example: `WebSearch(query="quantum computing 2025")`
+
+**Option B: Use Exa MCP (if available, more powerful)**
+- Advanced semantic + keyword search
+- Tool name: `mcp__Exa__exa_search`
+- Parameters: `query` (required), `type` (auto/neural/keyword), `num_results`, `start_published_date`, `include_domains`
+- Example: `mcp__Exa__exa_search(query="quantum computing", type="neural", num_results=10)`
+
+**NEVER mix parameter styles** - this causes "Invalid tool parameters" errors.
 
 **Step 2: Spawn parallel deep-dive agents**
 
@@ -78,17 +90,27 @@ Use Task tool with general-purpose agents (3-5 agents) for:
 - Repository analysis (code examples, implementations)
 - Specialized domain research (requires multi-step investigation)
 
-**Example parallel execution:**
+**Example parallel execution (using WebSearch):**
 ```
 [Single message with multiple tool calls]
-- WebSearch(query="quantum computing 2025 state of the art", type="neural")
-- WebSearch(query="quantum computing limitations challenges", type="keyword")
-- WebSearch(query="quantum computing commercial applications", start_published_date="2024-01-01")
-- WebSearch(query="quantum computing vs classical", type="neural")
-- WebSearch(query="quantum error correction", include_domains=["arxiv.org"])
-- Task(agent: general-purpose, prompt: "Deep dive into quantum computing academic papers from 2024-2025")
-- Task(agent: general-purpose, prompt: "Analyze quantum computing industry reports and market data")
-- Task(agent: general-purpose, prompt: "Extract technical limitations and challenges from quantum computing research")
+- WebSearch(query="quantum computing 2025 state of the art")
+- WebSearch(query="quantum computing limitations challenges")
+- WebSearch(query="quantum computing commercial applications 2024-2025")
+- WebSearch(query="quantum computing vs classical comparison")
+- WebSearch(query="quantum error correction research", allowed_domains=["arxiv.org", "scholar.google.com"])
+- Task(subagent_type="general-purpose", description="Analyze quantum computing papers", prompt="Deep dive into quantum computing academic papers from 2024-2025, extract key findings and methodologies")
+- Task(subagent_type="general-purpose", description="Industry analysis", prompt="Analyze quantum computing industry reports and market data, identify commercial applications")
+- Task(subagent_type="general-purpose", description="Technical challenges", prompt="Extract technical limitations and challenges from quantum computing research")
+```
+
+**Example parallel execution (using Exa MCP - if available):**
+```
+[Single message with multiple tool calls]
+- mcp__Exa__exa_search(query="quantum computing state of the art", type="neural", num_results=10, start_published_date="2024-01-01")
+- mcp__Exa__exa_search(query="quantum computing limitations", type="keyword", num_results=10)
+- mcp__Exa__exa_search(query="quantum computing commercial", type="auto", num_results=10, start_published_date="2024-01-01")
+- mcp__Exa__exa_search(query="quantum error correction", type="neural", num_results=10, include_domains=["arxiv.org"])
+- Task(subagent_type="general-purpose", description="Academic analysis", prompt="Analyze quantum computing academic papers")
 ```
 
 **Step 3: Collect and organize results**

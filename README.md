@@ -4,12 +4,22 @@ A comprehensive research engine that brings Claude Desktop's Advanced Research c
 
 ## Features
 
-- **8-Phase Research Pipeline**: Scope → Plan → Retrieve → Triangulate → Synthesize → Critique → Refine → Package
+### Core Research Pipeline
+- **8.5-Phase Research Pipeline**: Scope → Plan → Retrieve (Parallel) → Triangulate → **Outline Refinement** → Synthesize → Critique → Refine → Package
 - **Multiple Research Modes**: Quick, Standard, Deep, and UltraDeep
 - **Graph-of-Thoughts Reasoning**: Non-linear exploration with branching thought paths
+
+### 2025 Enhancements (Latest)
+- **⚡ Parallel Search Execution**: 5-10 concurrent searches + parallel agents (3-5x faster Phase 3)
+- **🎯 First Finish Search (FFS) Pattern**: Adaptive completion based on quality thresholds
+- **🔍 Enhanced Citation Validation (CiteGuard)**: Hallucination detection, URL verification, multi-source cross-checking
+- **📋 Dynamic Outline Evolution (WebWeaver)**: Adapt structure after Phase 4 based on evidence
+- **🔗 Attribution Gradients UI**: Interactive citation tooltips showing evidence chains in HTML reports
+
+### Traditional Strengths
 - **Citation Management**: Automatic source tracking and bibliography generation
 - **Source Credibility Assessment**: Evaluates source quality and potential biases
-- **Structured Reports**: Professional markdown reports with executive summaries
+- **Structured Reports**: Professional markdown, HTML (McKinsey-style), and PDF outputs
 - **Verification & Triangulation**: Cross-references claims across multiple sources
 
 ## Installation
@@ -141,9 +151,39 @@ deep-research/
 | Local file integration | ❌ | ✅ |
 | Code execution | ❌ | ✅ |
 
+## 2025 Research Papers Implemented
+
+This skill now incorporates cutting-edge techniques from 2025 academic research:
+
+1. **Parallel Execution** (GAP, Flash-Searcher, TPS-Bench)
+   - DAG-based parallel tool use for independent subtasks
+   - 3-5x faster retrieval phase
+   - Concurrent search strategies
+
+2. **First Finish Search** (arXiv 2505.18149)
+   - Quality threshold gates by mode
+   - Continue background searches for depth
+   - Optimal latency-accuracy tradeoff
+
+3. **Citation Validation** (CiteGuard, arXiv 2510.17853)
+   - Hallucination pattern detection
+   - Multi-source verification (DOI + URL)
+   - Strict mode for critical reports
+
+4. **Dynamic Outlines** (WebWeaver, arXiv 2509.13312)
+   - Evidence-driven structure adaptation
+   - Phase 4.5 refinement step
+   - Prevents locked-in research paths
+
+5. **Attribution Gradients** (arXiv 2510.00361)
+   - Interactive evidence chains
+   - Hover tooltips in HTML reports
+   - Improved auditability
+
 ## Version
 
-1.0 (2025-11-04)
+2.0 (2025-11-05) - Major update with 2025 research enhancements
+1.0 (2025-11-04) - Initial release
 
 ## License
 

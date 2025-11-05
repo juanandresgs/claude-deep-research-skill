@@ -90,12 +90,13 @@ Validation Gate
 
 **All modes execute:**
 - Phase 1: SCOPE - Define boundaries ([method](./reference/methodology.md#phase-1-scope))
-- Phase 3: RETRIEVE - Gather 15-30 sources, spawn parallel agents
+- Phase 3: RETRIEVE - Parallel search execution (5-10 concurrent searches + agents) ([method](./reference/methodology.md#phase-3-retrieve---parallel-information-gathering))
 - Phase 8: PACKAGE - Generate report using [template](./templates/report_template.md)
 
 **Standard/Deep/UltraDeep execute:**
 - Phase 2: PLAN - Strategy formulation
 - Phase 4: TRIANGULATE - Verify 3+ sources per claim
+- Phase 4.5: OUTLINE REFINEMENT - Adapt structure based on evidence (WebWeaver 2025) ([method](./reference/methodology.md#phase-45-outline-refinement---dynamic-evolution-webweaver-2025))
 - Phase 5: SYNTHESIZE - Generate novel insights
 
 **Deep/UltraDeep execute:**
@@ -119,6 +120,40 @@ Validation Gate
 - **No speculation without labeling**: Mark inferences as "This suggests..." not "Research shows..."
 - **Verify before citing**: If unsure whether source actually says X, do NOT fabricate citation
 - **When uncertain**: Say "No sources found for X" rather than inventing references
+
+**Parallel Execution Requirements (CRITICAL for Speed):**
+
+**Phase 3 RETRIEVE - Mandatory Parallel Search:**
+1. **Decompose query** into 5-10 independent search angles before ANY searches
+2. **Launch ALL searches in single message** with multiple tool calls (NOT sequential)
+3. **Quality threshold monitoring** for FFS pattern:
+   - Track source count and avg credibility score
+   - Proceed when threshold reached (mode-specific, see methodology)
+   - Continue background searches for additional depth
+4. **Spawn 3-5 parallel agents** using Task tool for deep-dive investigations
+
+**Example correct execution:**
+```
+[Single message with 8+ parallel tool calls]
+WebSearch #1: Core topic semantic
+WebSearch #2: Technical keywords
+WebSearch #3: Recent 2024-2025 filtered
+WebSearch #4: Academic domains
+WebSearch #5: Critical analysis
+WebSearch #6: Industry trends
+Task agent #1: Academic paper analysis
+Task agent #2: Technical documentation deep dive
+```
+
+**❌ WRONG (sequential execution):**
+```
+WebSearch #1 → wait for results → WebSearch #2 → wait → WebSearch #3...
+```
+
+**✅ RIGHT (parallel execution):**
+```
+All searches + agents launched simultaneously in one message
+```
 
 ---
 
@@ -193,6 +228,7 @@ python scripts/validate_report.py --report [path]
 - Place critical metrics dashboard at top (extract 3-4 key quantitative findings)
 - Use data tables for dense information presentation
 - 14px base font, compact spacing, no decorative gradients or colors
+- **Attribution Gradients (2025):** Wrap each citation [N] in `<span class="citation">` with nested tooltip div showing source details
 - OPEN in browser automatically after generation
 
 **PDF (Professional Print - ALWAYS GENERATE):**
@@ -284,7 +320,19 @@ mkdir -p ~/Documents/[folder_name]
    - Bibliography entries: format each [N] citation as separate `<div class="bib-entry">` with hanging indent
    - URLs in bibliography: make clickable with `<a href="..." target="_blank">`
    - Headers: ## → `<h2 class="section-title">`, ### → `<h3 class="subsection-title">`
-   - Citations in text: [1], [2] → `<span class="citation">[N]</span>`
+   - **Citations with Attribution Gradients:** Convert [N] to interactive tooltips:
+     ```html
+     <span class="citation">[N]
+       <span class="citation-tooltip">
+         <div class="tooltip-title">[Source Title]</div>
+         <div class="tooltip-source">[Author (Year)]</div>
+         <div class="tooltip-claim">
+           <div class="tooltip-claim-label">Supports Claim:</div>
+           [Extract sentence containing this citation from report]
+         </div>
+       </span>
+     </span>
+     ```
    - Lists: convert markdown bullets to `<ul><li>` properly
    - Paragraphs: wrap non-HTML lines in `<p>` tags
 4. Replace placeholders: {{TITLE}}, {{DATE}}, {{MODE}}, {{SOURCE_COUNT}}, {{CREDIBILITY}}, {{METRICS_DASHBOARD}}, {{CONTENT}}, {{BIBLIOGRAPHY}}

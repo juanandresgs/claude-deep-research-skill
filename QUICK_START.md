@@ -26,22 +26,22 @@ Use deep research in ultradeep mode to review recent advances in longevity scien
 
 ```bash
 # Standard research (6 phases, ~5-10 minutes)
-python3 ~/.claude/skills/deep-research/research_engine.py \
+python3 ~/.claude/skills/research-verified/research_engine.py \
   --query "Your research question" \
   --mode standard
 
 # Deep research (8 phases, ~10-20 minutes)
-python3 ~/.claude/skills/deep-research/research_engine.py \
+python3 ~/.claude/skills/research-verified/research_engine.py \
   --query "Your research question" \
   --mode deep
 
 # Quick research (3 phases, ~2-5 minutes)
-python3 ~/.claude/skills/deep-research/research_engine.py \
+python3 ~/.claude/skills/research-verified/research_engine.py \
   --query "Your research question" \
   --mode quick
 
 # Ultra-deep research (8+ phases, ~20-45 minutes)
-python3 ~/.claude/skills/deep-research/research_engine.py \
+python3 ~/.claude/skills/research-verified/research_engine.py \
   --query "Your research question" \
   --mode ultradeep
 ```
@@ -136,7 +136,7 @@ Every report guarantees:
 ## Architecture
 
 ```
-deep-research/
+research-verified/
 ├── SKILL.md                 # Main skill definition (11KB)
 ├── research_engine.py       # Core engine (16KB)
 ├── utils/

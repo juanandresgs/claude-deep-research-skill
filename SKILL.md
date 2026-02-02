@@ -1,9 +1,9 @@
 ---
-name: deep-research
-description: Conduct enterprise-grade research with multi-source synthesis, citation tracking, and verification. Use when user needs comprehensive analysis requiring 10+ sources, verified claims, or comparison of approaches. Triggers include "deep research", "comprehensive analysis", "research report", "compare X vs Y", or "analyze trends". Do NOT use for simple lookups, debugging, or questions answerable with 1-2 searches.
+name: research-verified
+description: Verification-focused research with enterprise-grade multi-source synthesis, citation tracking, and credibility scoring (4-10 min). Use when you need 10+ verified sources, professional reports requiring citations, high-stakes decisions needing audit trail, or comparing technologies/approaches with evidence. Output includes markdown + HTML + PDF with academic citation style. Do NOT use for simple lookups or questions answerable with 1-2 searches.
 ---
 
-# Deep Research
+# Research Verified
 
 <!-- STATIC CONTEXT BLOCK START - Optimized for prompt caching -->
 <!-- All static instructions, methodology, and templates below this line -->
@@ -507,9 +507,9 @@ Use Task tool with general-purpose agent:
 ```
 Task(
   subagent_type="general-purpose",
-  description="Continue deep-research report generation",
+  description="Continue research-verified report generation",
   prompt="""
-CONTINUATION TASK: You are continuing an existing deep-research report.
+CONTINUATION TASK: You are continuing an existing research-verified report.
 
 CRITICAL INSTRUCTIONS:
 1. Read continuation state file: ~/.claude/research_output/continuation_state_[report_id].json
@@ -616,7 +616,7 @@ Context preservation ensures coherence across continuation boundaries.
 3. **Use Python script for MD to HTML conversion:**
 
    ```bash
-   cd ~/.claude/skills/deep-research
+   cd ~/.claude/skills/research-verified
    python scripts/md_to_html.py [markdown_report_path]
    ```
 

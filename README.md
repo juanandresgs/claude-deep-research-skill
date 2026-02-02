@@ -27,7 +27,7 @@ A comprehensive research engine that brings Claude Desktop's Advanced Research c
 
 ## Installation
 
-The skill is already installed globally in `~/.claude/skills/deep-research/`
+The skill is already installed globally in `~/.claude/skills/research-verified/`
 
 No additional dependencies required for basic usage.
 
@@ -51,16 +51,16 @@ Use deep research in ultradeep mode to compare PostgreSQL vs Supabase
 
 ```bash
 # Standard research
-python ~/.claude/skills/deep-research/research_engine.py --query "Your research question" --mode standard
+python ~/.claude/skills/research-verified/research_engine.py --query "Your research question" --mode standard
 
 # Deep research (all 8 phases)
-python ~/.claude/skills/deep-research/research_engine.py --query "Your research question" --mode deep
+python ~/.claude/skills/research-verified/research_engine.py --query "Your research question" --mode deep
 
 # Quick research (3 phases only)
-python ~/.claude/skills/deep-research/research_engine.py --query "Your research question" --mode quick
+python ~/.claude/skills/research-verified/research_engine.py --query "Your research question" --mode quick
 
 # Ultra-deep research (extended iterations)
-python ~/.claude/skills/deep-research/research_engine.py --query "Your research question" --mode ultradeep
+python ~/.claude/skills/research-verified/research_engine.py --query "Your research question" --mode ultradeep
 ```
 
 ## Research Modes
@@ -187,7 +187,7 @@ Every research output:
 ## Architecture
 
 ```
-deep-research/
+research-verified/
 ├── SKILL.md                    # Main skill definition
 ├── research_engine.py          # Core orchestration engine
 ├── utils/

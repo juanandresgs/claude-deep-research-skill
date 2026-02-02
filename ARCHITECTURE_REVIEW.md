@@ -464,7 +464,7 @@ The system is production-ready with minor optimizations available. Zero critical
 ✅ **High-level or better:** Beats Claude Desktop, OpenAI, Gemini in quality
 ✅ **Python scripts:** 4 scripts (research_engine, validator, source_evaluator, citation_manager)
 ✅ **GitHub inspiration:** Analyzed AnkitClassicVision, Anthropic official, community repos
-✅ **Globally deployed:** Located in `~/.claude/skills/deep-research/`
+✅ **Globally deployed:** Located in `~/.claude/skills/research-verified/`
 ✅ **Works in any instance:** Self-contained, no external dependencies
 
 ### Additional Deliverables (Beyond Request):

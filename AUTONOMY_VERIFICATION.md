@@ -1,7 +1,7 @@
 # Autonomy Verification: Claude Code Skill Independence
 
 **Date:** 2025-11-04
-**Purpose:** Verify deep-research skill operates autonomously without blocking user interaction
+**Purpose:** Verify research-verified skill operates autonomously without blocking user interaction
 
 ---
 
@@ -21,7 +21,7 @@
 
 ### Location Check
 ```
-~/.claude/skills/deep-research/
+~/.claude/skills/research-verified/
 └── SKILL.md (with valid YAML frontmatter)
 ```
 
@@ -30,7 +30,7 @@
 ### Frontmatter Validation
 ```yaml
 ---
-name: deep-research
+name: research-verified
 description: Conduct enterprise-grade research with multi-source synthesis, citation tracking, and verification. Use when user needs comprehensive analysis requiring 10+ sources, verified claims, or comparison of approaches. Triggers include "deep research", "comprehensive analysis", "research report", "compare X vs Y", or "analyze trends". Do NOT use for simple lookups, debugging, or questions answerable with 1-2 searches.
 ---
 ```
@@ -223,7 +223,7 @@ DONE (Total user interactions: 0 ✅)
 ### Required Files (Claude Code Skill)
 
 ```
-~/.claude/skills/deep-research/
+~/.claude/skills/research-verified/
 ├── SKILL.md ✅ (with valid frontmatter)
 ├── scripts/ ✅ (all executable, no interactive prompts)
 │   ├── research_engine.py
@@ -404,7 +404,7 @@ The skill automatically activates when user says:
 
 ### Autonomy Status: ✅ VERIFIED
 
-The deep-research skill is properly configured as a Claude Code skill and optimized for autonomous operation:
+The research-verified skill is properly configured as a Claude Code skill and optimized for autonomous operation:
 
 1. **Discovery:** ✅ Valid frontmatter, correct location
 2. **Triggers:** ✅ Clear activation keywords
